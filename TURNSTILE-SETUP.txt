@@ -1,0 +1,20 @@
+PROTECTED NETLIFY DEPLOYMENT
+
+This package deliberately contains no challenge files in public/.
+The global Edge Function serves every site route only after a valid Turnstile session.
+
+Before deploying, create these Netlify environment variables with Functions scope:
+  TURNSTILE_SITE_KEY
+  TURNSTILE_SECRET_KEY
+  TURNSTILE_COOKIE_SECRET
+
+TURNSTILE_SECRET_KEY and TURNSTILE_COOKIE_SECRET must be secret values.
+After setting or changing them, trigger a fresh deploy.
+
+Expected checks:
+  anonymous GET /                         -> Turnstile gate (403)
+  anonymous GET /challenges/...           -> Turnstile gate (403)
+  invalid POST /__turnstile/verify        -> 403
+  valid POST /__turnstile/verify          -> signed HttpOnly cookie + redirect
+  authenticated challenge/API/file route  -> intended response
+  modified or expired cookie              -> Turnstile gate (403)

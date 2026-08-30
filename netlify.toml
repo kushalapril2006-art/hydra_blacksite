@@ -3,6 +3,5 @@
   edge_functions = "netlify/edge-functions"
 
 [[edge_functions]]
-  function = "hydra"
+  function = "ctf-gate"
   path = "/*"
-
